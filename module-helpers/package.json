@@ -1,0 +1,17 @@
+{
+  "name": "@cabineat/utilities-helpers",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "CabinEat <admin@cabineat.vn>",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@clerk/nextjs": "^4.29.9",
+    "cookies-next": "^4.1.1",
+    "next": "14.1.1",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}

@@ -1,10 +1,18 @@
 {
-  "name": "cabin-id-integrate-app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@cabinid/nextjs",
+  "version": "0.1.7",
+  "private": false,
+  "main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cabinfood/template"
+  },
+  "license": "MIT",
+  "author": "kienha",
+  "workspaces": ["module-helpers"],
   "scripts": {
     "dev": "next dev -p 3010",
-    "build": "next build",
+    "build": "tsc -p tsconfig.json",
     "start": "next start",
     "lint": "next lint"
   },

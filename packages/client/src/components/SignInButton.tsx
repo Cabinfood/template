@@ -1,6 +1,7 @@
-'use client';
-import { useCabinID } from '../hooks';
-import Link from 'next/link';
+"use client";
+import React from "react";
+import { useCabinID } from "../hooks";
+import Link from "next/link";
 
 const Button = () => {
   const { signInUrl } = useCabinID();

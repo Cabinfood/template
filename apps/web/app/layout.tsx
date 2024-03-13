@@ -1,3 +1,4 @@
+import { CabinIDProvider } from "@cabinid/client";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <CabinIDProvider>
+      <html lang="en">
+        <body className={inter.className}>{children}</body>
+      </html>
+    </CabinIDProvider>
   );
 }

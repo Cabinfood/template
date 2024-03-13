@@ -1,3 +1,7 @@
+"use server";
+
+import { cookies } from "next/headers";
+
 export type CabinIDSignUp = {
   phoneNumber: string;
   password: string;
@@ -5,17 +9,16 @@ export type CabinIDSignUp = {
   lastName: string;
 };
 
+const BASE_API_URL = "https://ethereal-tomatoes-production.up.railway.app/api";
+
 export const signUp = async (payload: CabinIDSignUp) => {
-  const res = await fetch(
-    'https://ethereal-tomatoes-production.up.railway.app/v1/api/auth/sign-up',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }
-  );
+  const res = await fetch(`${BASE_API_URL}/auth/sign-up`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
   if (!res.ok) {
     throw new Error(res.statusText);
   }
@@ -23,16 +26,13 @@ export const signUp = async (payload: CabinIDSignUp) => {
 };
 
 export const signIn = async (payload: CabinIDSignUp) => {
-  const res = await fetch(
-    'https://ethereal-tomatoes-production.up.railway.app/v1/api/auth/sign-in',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }
-  );
+  const res = await fetch(`${BASE_API_URL}/auth/sign-in`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
   if (!res.ok) {
     throw new Error(res.statusText);
   }
@@ -40,16 +40,13 @@ export const signIn = async (payload: CabinIDSignUp) => {
 };
 
 export const checkValidApiKey = async (apiKey: string) => {
-  const res = await fetch(
-    'https://ethereal-tomatoes-production.up.railway.app/v1/api/api-key/validate',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ apiKey }),
-    }
-  );
+  const res = await fetch(`${BASE_API_URL}/api-key/validate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ apiKey }),
+  });
   if (!res.ok) {
     throw new Error(res.statusText);
   }
@@ -57,15 +54,43 @@ export const checkValidApiKey = async (apiKey: string) => {
 };
 
 export const getSubdomain = async (apiKey: string) => {
-  const res = await fetch(
-    `https://ethereal-tomatoes-production.up.railway.app/v1/api/api-key/${apiKey}/domain`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+  const res = await fetch(`${BASE_API_URL}/api-key/${apiKey}/domain`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return await res.json();
+};
+
+export const getProjectByApiKey = async (apiKey: string) => {
+  const res = await fetch(`${BASE_API_URL}/project/api-key/${apiKey}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return await res.json();
+};
+
+export const getCurrentUser = async () => {
+  const accessToken = cookies().get("accessToken");
+  if (!accessToken) {
+    throw new Error("No access token found!");
+  }
+  const res = await fetch(`${BASE_API_URL}/user/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken?.value}`,
+    },
+  });
   if (!res.ok) {
     throw new Error(res.statusText);
   }

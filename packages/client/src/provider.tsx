@@ -52,7 +52,7 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
       const project = await getProjectByApiKey(apiKey);
       setProject(project);
     }
-    if (accessToken && apiKey) {
+    if (apiKey) {
       initialData();
     }
   }, [apiKey, accessToken]);

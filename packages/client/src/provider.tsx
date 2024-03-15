@@ -1,5 +1,4 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 import type { PropsWithChildren } from "react";
 import { getCurrentUser, getProjectByApiKey } from "./request";
@@ -32,6 +31,7 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
   const [user, setUser] = useState<CabinIDUser | null>(null);
 
   const apiKey = process.env.NEXT_PUBLIC_CABIN_ID_API_KEY as string;
+  const redirectUrl = process.env.NEXT_PUBLIC_CABIN_ID_REDIRECT_URL as string;
 
   if (!apiKey) {
     throw new Error(
@@ -39,8 +39,12 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
     );
   }
 
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect_url");
+  if (!redirectUrl) {
+    throw new Error(
+      "You must provide the NEXT_PUBLIC_CABIN_ID_REDIRECT_URL environment variable.",
+    );
+  }
+
   const accessToken = getCookie("accessToken");
 
   useEffect(() => {

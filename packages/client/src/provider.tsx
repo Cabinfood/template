@@ -62,9 +62,7 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
       const user = await getCurrentUser();
      if (user) setUser(user)
     }
-    if (accessToken) {
       fetchUser();
-    }
   }, [accessToken]);
 
   const isLoggedIn = !!user;

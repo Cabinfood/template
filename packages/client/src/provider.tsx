@@ -1,5 +1,4 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 import type { PropsWithChildren } from "react";
 import { getCurrentUser, getProjectByApiKey } from "./request";
@@ -32,14 +31,20 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
   const [user, setUser] = useState<CabinIDUser | null>(null);
 
   const apiKey = process.env.NEXT_PUBLIC_CABIN_ID_API_KEY as string;
+  const redirectUrl = process.env.NEXT_PUBLIC_CABIN_ID_REDIRECT_URL as string;
+
   if (!apiKey) {
     throw new Error(
       "You must set the NEXT_PUBLIC_CABIN_ID_API_KEY environment variable.",
     );
   }
 
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect_url");
+  if (!redirectUrl) {
+    throw new Error(
+      "You must provide the NEXT_PUBLIC_CABIN_ID_REDIRECT_URL environment variable.",
+    );
+  }
+
   const accessToken = getCookie("accessToken");
 
   useEffect(() => {
@@ -47,15 +52,19 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
       const project = await getProjectByApiKey(apiKey);
       setProject(project);
     }
-    initialData();
-  }, [apiKey]);
+    if (accessToken && apiKey) {
+      initialData();
+    }
+  }, [apiKey, accessToken]);
 
   useEffect(() => {
     async function fetchUser() {
       const user = await getCurrentUser();
      if (user) setUser(user)
     }
-    fetchUser();
+    if (accessToken) {
+      fetchUser();
+    }
   }, [accessToken]);
 
   const isLoggedIn = !!user;

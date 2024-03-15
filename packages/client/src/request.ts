@@ -9,7 +9,7 @@ export type CabinIDSignUp = {
   lastName: string;
 };
 
-const BASE_API_URL = "https://ethereal-tomatoes-production.up.railway.app/api";
+const BASE_API_URL = "https://cabinid-public.up.railway.app/api";
 
 export const signUp = async (payload: CabinIDSignUp) => {
   const res = await fetch(`${BASE_API_URL}/auth/sign-up`, {
@@ -82,7 +82,7 @@ export const getProjectByApiKey = async (apiKey: string) => {
 export const getCurrentUser = async () => {
   const accessToken = cookies().get("accessToken");
   if (!accessToken) {
-    throw new Error("No access token found!");
+    return
   }
   const res = await fetch(`${BASE_API_URL}/user/me`, {
     method: "GET",

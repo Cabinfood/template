@@ -53,7 +53,7 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
   useEffect(() => {
     async function fetchUser() {
       const user = await getCurrentUser();
-      setUser(user);
+     if (user) setUser(user)
     }
     fetchUser();
   }, [accessToken]);

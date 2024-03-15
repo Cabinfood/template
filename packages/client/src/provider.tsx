@@ -32,6 +32,7 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
   const [user, setUser] = useState<CabinIDUser | null>(null);
 
   const apiKey = process.env.NEXT_PUBLIC_CABIN_ID_API_KEY as string;
+
   if (!apiKey) {
     throw new Error(
       "You must set the NEXT_PUBLIC_CABIN_ID_API_KEY environment variable.",
@@ -47,15 +48,19 @@ const CabinIDProvider = ({ children }: PropsWithChildren<any>) => {
       const project = await getProjectByApiKey(apiKey);
       setProject(project);
     }
-    initialData();
-  }, [apiKey]);
+    if (accessToken && apiKey) {
+      initialData();
+    }
+  }, [apiKey, accessToken]);
 
   useEffect(() => {
     async function fetchUser() {
       const user = await getCurrentUser();
       setUser(user);
     }
-    fetchUser();
+    if (accessToken) {
+      fetchUser();
+    }
   }, [accessToken]);
 
   const isLoggedIn = !!user;

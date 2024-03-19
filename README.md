@@ -54,7 +54,7 @@ Follow the steps below:
       );
     }
     ```
-6. Add SignInButton to Your Authentication Page app/auth/sign-in
+6. Add SignInButton to Your Authentication Page app/auth/page.tsx
     ```tsx
     import { SignInButton } from "@cabinid/nextjs";
     export default function Auth() {
@@ -65,3 +65,9 @@ Follow the steps below:
       )
     }
     ```
+7. Try accessing your app
+   - Access your app to verify that authentication is enabled:
+      ```bash
+      npm run dev
+      ```
+   - Visit http://localhost:3000 to access your app.

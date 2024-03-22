@@ -1,9 +1,9 @@
-import {UserInfo} from "./component/userInfo";
+import { UserInfo } from './component/userInfo';
 
 export default function Home() {
-    return(
-        <div>
-            <UserInfo/>
-        </div>
-    )
+  return (
+    <div>
+      <UserInfo />
+    </div>
+  );
 }

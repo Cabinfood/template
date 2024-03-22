@@ -1,6 +1,6 @@
-import {authMiddleware} from "@cabinid/client";
+import { authMiddleware } from '@cabinid/nextjs';
 
 export default authMiddleware({
-    publicRoutes: ["/"],
-    ignoredRoutes: []
-})
+  publicRoutes: [],
+  ignoredRoutes: [],
+});

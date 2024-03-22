@@ -40,7 +40,7 @@ Add the following lines to your environment file with the value of your project'
 Create `app/provider.tsx` file at your root source folder. Then add the CabinIDProvider as the following example.
 
 ```tsx
-# app/provider.tsx
+// app/provider.tsx
 
  "use client";
 
@@ -59,7 +59,7 @@ Create `app/provider.tsx` file at your root source folder. Then add the CabinIDP
 After that, import the above `<Provider>` component to root `app/layout.tsx` file as the following example.
 
 ```tsx
-# app/layout.tsx
+// app/layout.tsx
 
 import { Providers } from "./provider";
 
@@ -84,7 +84,7 @@ return (
 2. Add `authMiddleware` to your `middleware.ts` file as the following example. This helper enables authentication and blocks access for signed out visitors on routes that your middleware runs on.
 
 ```ts
-# middleware.ts
+// middleware.ts
 
 import { authMiddleware } from '@clerk/nextjs';
 
@@ -130,6 +130,8 @@ pnpm run dev
 4. (Optional) If you want to allow the access to any route without authentication, you can add the `publicRoutes` array to the `authMiddleware` function as the following example.
 
 ```ts
+// middleware.ts
+
 export default authMiddleware({
   publicRoutes: ['/'],
 });
@@ -138,7 +140,8 @@ export default authMiddleware({
 In this case, if you want to direct to CabinID's Authentication Portal, embedded the `SignInButton.tsx` to your authentication page.
 
 ```tsx
-# app/auth.tsx
+// app/auth.tsx
+
 "use client"
 
 import { SignInButton, logout } from "@cabinid/nextjs";
@@ -159,11 +162,11 @@ export default function AuthPage() {
 CabinID provides you `logout` function to finish your session.
 
 ```tsx
-# app/auth.tsx
+// app/auth.tsx
 
 import {logout} from "@cabinid/nextjs";
 
-# Logout without any options
+// Logout without any options
 export default function AuthPage() {
   const handleLogout = () => {
     logout();
@@ -176,7 +179,7 @@ export default function AuthPage() {
   )
 }
 
-# Logout with assigned redirect url
+// Logout with assigned redirect url
 export default function AuthPage() {
   const handleLogout = () => {
     logout({

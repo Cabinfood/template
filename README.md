@@ -28,11 +28,11 @@ pnpm add @cabinid/nextjs
 Add the following lines to your environment file with the value of your project's API Key and your site URL.
 
 ```dotenv
- # Your Project Key API here, for example: abcdefghijklmnop1234567890
- NEXT_PUBLIC_CABIN_ID_API_KEY=
+# Your Project Key API here, for example: abcdefghijklmnop1234567890
+NEXT_PUBLIC_CABIN_ID_API_KEY=
 
- # Your site URL, for example: http://localhost:3000/
- NEXT_PUBLIC_CABIN_ID_REDIRECT_URL=
+# Your site URL, for example: http://localhost:3000/
+NEXT_PUBLIC_CABIN_ID_REDIRECT_URL=
 ```
 
 ### 3. Add `<CabinIDProvider>` to your app
@@ -42,16 +42,16 @@ Create `app/provider.tsx` file at your root source folder. Then add the CabinIDP
 ```tsx
 // app/provider.tsx
 
- "use client";
+'use client';
 
- import { CabinIDProvider } from "@cabinid/nextjs";
- import { PropsWithChildren } from "react";
+import { CabinIDProvider } from '@cabinid/nextjs';
+import { PropsWithChildren } from 'react';
 
- type AppProviderProps = {}
+type AppProviderProps = {};
 
- export function Providers({ children }: PropsWithChildren<AppProviderProps>) {
-   return <CabinIDProvider>{children}</CabinIDProvider>;
- }
+export function Providers({ children }: PropsWithChildren<AppProviderProps>) {
+  return <CabinIDProvider>{children}</CabinIDProvider>;
+}
 ```
 
 **NOTE**: You have to place CabinIDProvider in a Component has `use client` on the top of file.
@@ -61,20 +61,20 @@ After that, import the above `<Provider>` component to root `app/layout.tsx` fil
 ```tsx
 // app/layout.tsx
 
-import { Providers } from "./provider";
+import { Providers } from './provider';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-return (
-   <html lang="en">
-     <body>
-       <Providers>{children}</Providers>
-     </body>
-   </html>
- );
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -142,56 +142,55 @@ In this case, if you want to direct to CabinID's Authentication Portal, embedded
 ```tsx
 // app/auth.tsx
 
-"use client"
+'use client';
 
-import { SignInButton, logout } from "@cabinid/nextjs";
+import { SignInButton, logout } from '@cabinid/nextjs';
 
 export default function AuthPage() {
   return (
     <div>
       <SignInButton />
     </div>
-  )
+  );
 }
-
 ```
 
 **NOTE**: You have to place `SignInButton` in a Component has `use client` on the top of file. And inside a component which is wrapped by CabinIDProvider
 
 ### 6. Logout your session
+
 CabinID provides you `logout` function to finish your session.
 
 ```tsx
 // app/auth.tsx
 
-import {logout} from "@cabinid/nextjs";
+import { logout } from '@cabinid/nextjs';
 
 // Logout without any options
 export default function AuthPage() {
   const handleLogout = () => {
     logout();
-  }
+  };
 
   return (
     <div>
       <button onClick={handleLogout}>Logout</button>
     </div>
-  )
+  );
 }
 
 // Logout with assigned redirect url
 export default function AuthPage() {
   const handleLogout = () => {
     logout({
-      redirectUrl: "http://localhost:3000"
+      redirectUrl: 'http://localhost:3000',
     });
-  }
+  };
 
   return (
     <div>
       <button onClick={handleLogout}>Logout</button>
     </div>
-  )
+  );
 }
-
 ```

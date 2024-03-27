@@ -14,13 +14,13 @@ This document provides you with all the necessary steps required to integrate Ca
 
 ```bash
 # using npm
-npm i @cabinid/nextjs
+npm i @cabinvn/cabinid-nextjs
 
 # using npm
-yarn add @cabinid/nextjs
+yarn add @cabinvn/cabinid-nextjs
 
 # using pnpm
-pnpm add @cabinid/nextjs
+pnpm add @cabinvn/cabinid-nextjs
 ```
 
 ### 2. Set your environment variables
@@ -44,7 +44,7 @@ Create `app/provider.tsx` file at your root source folder. Then add the CabinIDP
 
 'use client';
 
-import { CabinIDProvider } from '@cabinid/nextjs';
+import { CabinIDProvider } from '@cabinvn/cabinid-nextjs';
 import { PropsWithChildren } from 'react';
 
 type AppProviderProps = {};
@@ -86,7 +86,7 @@ export default function RootLayout({
 ```ts
 // middleware.ts
 
-import { authMiddleware } from '@clerk/nextjs';
+import { authMiddleware } from '@cabinvn/cabinid-nextjs';
 
 export default authMiddleware({
   // Allow signed out users to access the specified routes:
@@ -140,11 +140,11 @@ export default authMiddleware({
 In this case, if you want to direct to CabinID's Authentication Portal, embedded the `SignInButton.tsx` to your authentication page.
 
 ```tsx
-// app/auth.tsx
+// app/auth/page.tsx
 
 'use client';
 
-import { SignInButton, logout } from '@cabinid/nextjs';
+import { SignInButton, logout } from '@cabinvn/cabinid-nextjs';
 
 export default function AuthPage() {
   return (
@@ -162,9 +162,9 @@ export default function AuthPage() {
 CabinID provides you `logout` function to finish your session.
 
 ```tsx
-// app/auth.tsx
+// app/auth/page.tsx
 
-import { logout } from '@cabinid/nextjs';
+import { logout } from '@cabinvn/cabinid-nextjs';
 
 // Logout without any options
 export default function AuthPage() {

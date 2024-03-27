@@ -1,6 +1,6 @@
 'use client';
 
-import { logout, useUser } from '@cabinid/nextjs';
+import { logout, useUser } from '@cabinvn/cabinid-nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

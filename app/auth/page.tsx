@@ -1,4 +1,4 @@
-import { logout, SignInButton } from '@cabinid/nextjs';
+import { logout, SignInButton } from '@cabinvn/cabinid-nextjs';
 
 export default function Auth() {
   return (

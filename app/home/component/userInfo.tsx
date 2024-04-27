@@ -1,6 +1,6 @@
 'use client';
 
-import { logout, useUser } from '@cabinvn/cabinid-nextjs';
+import { useUser } from '@cabin-id/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -15,9 +15,7 @@ const UserInfo = () => {
   return (
     <div>
       {`xin chao ${user?.firstName}`}
-      {user?.id ? (
-        <div onClick={() => logout({ redirectUrl: '/auth' })}>LogOut</div>
-      ) : null}
+      {user?.id ? <div>LogOut</div> : null}
     </div>
   );
 };

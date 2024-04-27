@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@cabinvn/cabinid-nextjs": "^0.5.7",
+    "@cabin-id/nextjs": "^0.1.2",
     "classnames": "^2.5.1",
     "date-fns": "^3.3.1",
     "gray-matter": "^4.0.3",

@@ -6,7 +6,7 @@ This document provides you with all the necessary steps required to integrate Ca
 
 1. [Sign in](https://cabinid.dev/sign-in) CabinID or [sign up](https://cabinid.dev/sign-up) if you don't have an account.
 2. Go to the CabinID [dashboard](https://cabinid.dev/project) and create a project. Fill your project name and choose a subdomain for it. This subdomain is unique on our platform.
-3. After the project is created, you will be redirected to the project's page. Go to the API Keys by the Navigation Menu on the left side by the path `Developers/API Keys`, copy the project's api key and save it for later.
+3. After the project is created, you will be redirected to the project's page. Go to the API Keys by the Navigation Menu on the left side by the path `Developers/API Keys`, save the project's Secret Key and Public Key for later.
 
 ## Integrate CabinID into your application
 
@@ -14,25 +14,37 @@ This document provides you with all the necessary steps required to integrate Ca
 
 ```bash
 # using npm
-npm i @cabinvn/cabinid-nextjs
+npm i @cabin-id/nextjs
 
 # using npm
-yarn add @cabinvn/cabinid-nextjs
+yarn add @cabin-id/nextjs
 
 # using pnpm
-pnpm add @cabinvn/cabinid-nextjs
+pnpm add @cabin-id/nextjs
 ```
 
 ### 2. Set your environment variables
 
-Add the following lines to your environment file with the value of your project's API Key and your site URL.
+Add the following lines to your environment file with the value of your project's Secret Key, Publish Key and your site URL.
 
 ```dotenv
-# Your Project Key API here, for example: abcdefghijklmnop1234567890
-NEXT_PUBLIC_CABIN_ID_API_KEY=
+# Your Project's Publish Key here, for example: cabin_pk_abcdefghijklmnop1234567890
+NEXT_PUBLIC_CABIN_ID_PUBLISH_KEY=
 
-# Your site URL, for example: http://localhost:3000/
-NEXT_PUBLIC_CABIN_ID_REDIRECT_URL=
+# Your Project's Secret Key here, for example: abcdefghijklmnop1234567890
+CABIN_SECRET_KEY=
+
+# Your site URL, for example: http://localhost:3010/sign-in
+NEXT_PUBLIC_CABIN_ID_SIGN_IN_URL=
+
+# Your site URL, for example: http://localhost:3010/sign-up
+NEXT_PUBLIC_CABIN_ID_SIGN_UP_URL=
+
+# Your site URL, for example: http://localhost:3010/private
+NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_IN_URL=
+
+# Your site URL, for example: http://localhost:3010/private
+NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_UP_URL=
 ```
 
 ### 3. Add `<CabinIDProvider>` to your app
@@ -44,7 +56,7 @@ Create `app/provider.tsx` file at your root source folder. Then add the CabinIDP
 
 'use client';
 
-import { CabinIDProvider } from '@cabinvn/cabinid-nextjs';
+import { CabinIDProvider } from '@cabin-id/nextjs';
 import { PropsWithChildren } from 'react';
 
 type AppProviderProps = {};
@@ -86,14 +98,14 @@ export default function RootLayout({
 ```ts
 // middleware.ts
 
-import { authMiddleware } from '@cabinvn/cabinid-nextjs';
+import { authMiddleware } from '@cabin-id/nextjs';
 
 export default authMiddleware({
   // Allow signed out users to access the specified routes:
-  // publicRoutes: ['/anyone-can-visit-this-route'],
+  publicRoutes: ['/anyone-can-visit-this-route'],
   // Prevent the specified routes from accessing
   // authentication information:
-  // ignoredRoutes: ['/no-auth-in-this-route'],
+  ignoredRoutes: ['/no-auth-in-this-route'],
 });
 
 export const config = {
@@ -135,6 +147,10 @@ pnpm run dev
 export default authMiddleware({
   publicRoutes: ['/'],
 });
+
+export const config = {
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+};
 ```
 
 In this case, if you want to direct to CabinID's Authentication Portal, embedded the `SignInButton.tsx` to your authentication page.
@@ -144,7 +160,7 @@ In this case, if you want to direct to CabinID's Authentication Portal, embedded
 
 'use client';
 
-import { SignInButton, logout } from '@cabinvn/cabinid-nextjs';
+import { SignInButton, logout } from '@cabin-id/nextjs';
 
 export default function AuthPage() {
   return (
@@ -164,7 +180,7 @@ CabinID provides you `logout` function to finish your session.
 ```tsx
 // app/auth/page.tsx
 
-import { logout } from '@cabinvn/cabinid-nextjs';
+import { logout } from '@cabin-id/nextjs';
 
 // Logout without any options
 export default function AuthPage() {

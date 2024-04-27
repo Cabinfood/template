@@ -1,6 +1,6 @@
 'use client';
 
-import { CabinIDProvider } from '@cabinvn/cabinid-nextjs';
+import { CabinIDProvider } from '@cabin-id/nextjs';
 import { PropsWithChildren } from 'react';
 
 type AppProviderProps = {};

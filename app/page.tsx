@@ -1,6 +1,6 @@
 'use client';
 
-import { SignInButton } from '@cabinvn/cabinid-nextjs';
+import { SignInButton } from '@cabin-id/nextjs';
 
 export default function Home() {
   return (

@@ -173,40 +173,65 @@ export default function AuthPage() {
 
 **NOTE**: You have to place `SignInButton` in a Component has `use client` on the top of file. And inside a component which is wrapped by CabinIDProvider
 
-### 6. Logout your session
+### 6. Getting CabinID user data
 
-CabinID provides you `logout` function to finish your session.
+You can use function `currentUser` for getting CabinID's user data from server and `useUser` hook for client
 
 ```tsx
-// app/auth/page.tsx
+// client file
 
-import { logout } from '@cabin-id/nextjs';
+'use client';
 
-// Logout without any options
-export default function AuthPage() {
-  const handleLogout = () => {
-    logout();
-  };
+import { useUser } from '@cabin-id/nextjs';
+
+export default function Page() {
+  const user = useUser();
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
+      <p>User: {user.firstName + ' ' + user.lastName}</p>
+      <p>Phone number: {user.phoneNumber}</p>
     </div>
   );
 }
+```
 
-// Logout with assigned redirect url
-export default function AuthPage() {
-  const handleLogout = () => {
-    logout({
-      redirectUrl: 'http://localhost:3000',
-    });
-  };
+```tsx
+// server file
+
+'use server';
+
+import { currentUser } from '@cabin-id/nextjs';
+import { notFound } from 'next/navigation';
+
+export default async function Page() {
+  const user = await currentUser();
+
+  if (!user) {
+    return notFound();
+  }
 
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
+      <p>User: {user.firstName + ' ' + user.lastName}</p>
+      <p>Phone number: {user.phoneNumber}</p>
     </div>
   );
+}
+```
+
+```tsx
+// route handler
+
+import { currentUser } from '@cabin-id/nextjs';
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const user = await currentUser();
+  return Response.json({ user });
 }
 ```

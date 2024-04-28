@@ -1,9 +1,9 @@
-import { auth } from '@cabinvn/cabinid-nextjs';
+import { auth } from '@cabin-id/nextjs';
 
 export default function Page() {
-  const { user } = auth();
+  const { userId } = auth();
 
-  console.log(user);
+  console.log(userId);
 
   return <div>User Page</div>;
 }

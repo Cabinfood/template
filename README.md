@@ -32,7 +32,7 @@ Add the following lines to your environment file with the value of your project'
 NEXT_PUBLIC_CABIN_ID_PUBLISH_KEY=
 
 # Your Project's Secret Key here, for example: abcdefghijklmnop1234567890
-CABIN_SECRET_KEY=
+CABIN_ID_SECRET_KEY=
 
 # Your site URL, for example: http://localhost:3010/sign-in
 NEXT_PUBLIC_CABIN_ID_SIGN_IN_URL=

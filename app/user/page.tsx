@@ -1,7 +1,7 @@
 import { auth } from '@cabin-id/nextjs';
 
-export default function Page() {
-  const { userId } = auth();
+export default async function Page() {
+  const { userId } = await auth();
 
   console.log(userId);
 

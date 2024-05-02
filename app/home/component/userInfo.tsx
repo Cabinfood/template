@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const UserInfo = () => {
-  const user = useUser();
+  const { user } = useUser();
   const route = useRouter();
   useEffect(() => {
     if (!user) {

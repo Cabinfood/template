@@ -3,7 +3,7 @@
 // import { currentUser } from '@cabin-id/nextjs';
 import { ClientComponent } from './component';
 import { notFound } from 'next/navigation';
-import { getCurrentUser } from '../../services/user';
+import { getCurrentUser } from '../../../services/user';
 
 export default async function Page(): Promise<JSX.Element> {
   const user = await getCurrentUser();

@@ -34,46 +34,23 @@ NEXT_PUBLIC_CABIN_ID_PUBLISH_KEY=
 # Your Project's Secret Key here, for example: abcdefghijklmnop1234567890
 CABIN_ID_SECRET_KEY=
 
-# Your site URL, for example: http://localhost:3010/sign-in
+# Your site URL, for example: /sign-in
 NEXT_PUBLIC_CABIN_ID_SIGN_IN_URL=
 
-# Your site URL, for example: http://localhost:3010/sign-up
+# Your site URL, for example: /sign-up
 NEXT_PUBLIC_CABIN_ID_SIGN_UP_URL=
 
-# Your site URL, for example: http://localhost:3010/private
+# Your site URL, for example: /private
 NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_IN_URL=
 
-# Your site URL, for example: http://localhost:3010/private
+# Your site URL, for example: /private
 NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_UP_URL=
 ```
-
-### 3. Add `<CabinIDProvider>` to your app
-
-Create `app/provider.tsx` file at your root source folder. Then add the CabinIDProvider as the following example.
-
-```tsx
-// app/provider.tsx
-
-'use client';
-
-import { CabinIDProvider } from '@cabin-id/nextjs';
-import { PropsWithChildren } from 'react';
-
-type AppProviderProps = {};
-
-export function Providers({ children }: PropsWithChildren<AppProviderProps>) {
-  return <CabinIDProvider>{children}</CabinIDProvider>;
-}
-```
-
-**NOTE**: You have to place CabinIDProvider in a Component has `use client` on the top of file.
-
-After that, import the above `<Provider>` component to root `app/layout.tsx` file as the following example.
 
 ```tsx
 // app/layout.tsx
 
-import { Providers } from './provider';
+import { CabinIDProvider } from '@cabin-id/nextjs';
 
 export default function RootLayout({
   children,
@@ -83,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <CabinIDProvider>{children}</CabinIDProvider>
       </body>
     </html>
   );
@@ -98,25 +75,14 @@ export default function RootLayout({
 ```ts
 // middleware.ts
 
-import { authMiddleware } from '@cabin-id/nextjs';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 
-export default authMiddleware({
-  // Allow signed out users to access the specified routes:
-  publicRoutes: ['/anyone-can-visit-this-route'],
-  // Prevent the specified routes from accessing
-  // authentication information:
-  ignoredRoutes: ['/no-auth-in-this-route'],
-});
+export default clerkMiddleware();
 
 export const config = {
-  matcher: [
-    // Exclude files with a "." followed by an extension, which are typically static files.
-    // Exclude files in the _next directory, which are Next.js internals.
-
-    '/((?!.+\\.[\\w]+$|_next).*)',
-    // Re-include any files in the api or trpc folders that might have an extension
-    '/(api|trpc)(.*)',
-  ],
+  // The following matcher runs middleware on all routes
+  // except static assets.
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };
 ```
 
@@ -139,17 +105,30 @@ pnpm run dev
 
 3. Sign up to gain access to your application.
 
-4. (Optional) If you want to allow the access to any route without authentication, you can add the `publicRoutes` array to the `authMiddleware` function as the following example.
+4. Use `createRouteMatcher` to create a validator for the types of route which you want to check. See the following example to get your idea.
 
 ```ts
 // middleware.ts
 
-export default authMiddleware({
-  publicRoutes: ['/'],
+import { authMiddleware } from '@cabin-id/nextjs';
+import { createRouteMatcher } from '@cabin-id/nextjs/server';
+import { NextRequest, NextResponse } from 'next/server';
+
+const isPublicRoute = createRouteMatcher(['/auth', '/sign-in']);
+
+export default authMiddleware((auth, req: NextRequest) => {
+  const { userId } = auth();
+
+  if (!userId && !isPublicRoute(req)) {
+    const redirect = auth().redirectToSignIn({ returnBackUrl: req.url });
+    return redirect;
+  }
+
+  if (userId && !isPublicRoute(req)) return NextResponse.next();
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };
 ```
 
@@ -171,7 +150,7 @@ export default function AuthPage() {
 }
 ```
 
-**NOTE**: You have to place `SignInButton` in a Component has `use client` on the top of file. And inside a component which is wrapped by CabinIDProvider
+5. You also get some example with the [Clerk document](https://clerk.com/docs/references/nextjs/clerk-middleware)
 
 ### 6. Getting CabinID user data
 
@@ -185,9 +164,9 @@ You can use function `currentUser` for getting CabinID's user data from server a
 import { useUser } from '@cabin-id/nextjs';
 
 export default function Page() {
-  const user = useUser();
+  const { user, isSignedIn } = useUser();
 
-  if (!user) {
+  if (!user && !isSignedIn) {
     return null;
   }
 
@@ -234,4 +213,23 @@ export async function GET() {
   const user = await currentUser();
   return Response.json({ user });
 }
+```
+
+### 7. Sign out your session
+
+1. You can sign out your session by use the `signOut` function in `useUser` hook
+
+```tsx
+'use client';
+
+import { useUser } from '@cabin-id/nextjs';
+
+export const SignOutButton = () => {
+  const { signOut } = useUser();
+  return (
+    <button className="p-4 bg-violet-300" onClick={() => signOut()}>
+      SignOut
+    </button>
+  );
+};
 ```

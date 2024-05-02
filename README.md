@@ -112,11 +112,11 @@ pnpm run dev
 
 import { authMiddleware } from '@cabin-id/nextjs';
 import { createRouteMatcher } from '@cabin-id/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const isPublicRoute = createRouteMatcher(['/auth', '/sign-in']);
 
-export default authMiddleware((auth, req: NextRequest) => {
+export default authMiddleware((auth, req) => {
   const { userId } = auth();
 
   if (!userId && !isPublicRoute(req)) {

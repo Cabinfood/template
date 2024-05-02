@@ -34,16 +34,16 @@ NEXT_PUBLIC_CABIN_ID_PUBLISH_KEY=
 # Your Project's Secret Key here, for example: abcdefghijklmnop1234567890
 CABIN_ID_SECRET_KEY=
 
-# Your site URL, for example: /sign-in
+# Your custom path for sign in, for example: /sign-in
 NEXT_PUBLIC_CABIN_ID_SIGN_IN_URL=
 
-# Your site URL, for example: /sign-up
+# Your custom path for sign up, for example: /sign-up
 NEXT_PUBLIC_CABIN_ID_SIGN_UP_URL=
 
-# Your site URL, for example: /private
+# Your custom path which you want to redirect after sign in, for example: /private
 NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_IN_URL=
 
-# Your site URL, for example: /private
+# Your custom path which you want to redirect after sign up, for example: /private
 NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_UP_URL=
 ```
 

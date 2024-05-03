@@ -75,9 +75,9 @@ export default function RootLayout({
 ```ts
 // middleware.ts
 
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { authMiddleware } from '@cabin-id/nextjs/server';
 
-export default clerkMiddleware();
+export default authMiddleware();
 
 export const config = {
   // The following matcher runs middleware on all routes

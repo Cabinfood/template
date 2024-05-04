@@ -47,6 +47,8 @@ NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_IN_URL=
 NEXT_PUBLIC_CABIN_ID_AFTER_SIGN_UP_URL=
 ```
 
+### 3. Wrap your application by CabinIDProvider to manage authentication data
+
 ```tsx
 // app/layout.tsx
 
@@ -75,7 +77,7 @@ export default function RootLayout({
 ```ts
 // middleware.ts
 
-import { authMiddleware } from '@cabin-id/nextjs/server';
+import { authMiddleware } from '@cabin-id/nextjs';
 
 export default authMiddleware();
 
